@@ -1,0 +1,51 @@
+<!-- Sample launch file for using RealSense R200 camera with realsense_person -->
+<launch>
+
+  <!-- "camera" should be a user friendly string to uniquely identify the device namespace.
+       All topics are pushed down into the "camera" namespace, and it is prepended to tf frame ids. -->
+  <arg name="camera"          default="camera" />
+
+  <!-- Type of RealSense camera -->
+  <arg name="camera_type"     default="LR200M" />
+
+  <!-- "serial_no" or "usb_port_id" should be a unique identifier to connect to a device -->
+  <arg name="serial_no"     default="" />
+  <arg name="usb_port_id"   default="" /> <!-- USB "Bus#-Port#" -->
+
+  <!-- Arguments for remapping topic namespaces -->
+  <arg name="rgb"              default="color" />
+  <arg name="depth"            default="depth" />
+  <arg name="person"           default="person" />
+
+  <!-- Arguments for stream settings -->
+  <arg name="enable_color"      default="true" />
+  <arg name="enable_depth"      default="true" />
+  <arg name="mode"              default="manual" />
+  <arg name="color_width"       default="320" />
+  <arg name="color_height"      default="240" />
+  <arg name="depth_width"       default="320" />
+  <arg name="depth_height"      default="240" />
+  <arg name="color_fps"         default="30" />
+  <arg name="depth_fps"         default="30" />
+  <arg name="detection_rate"    default="30" />
+
+  <group ns="$(arg camera)">
+    <arg name="manager"        default="manager" />
+    <!-- Load manager -->
+    <node pkg="nodelet" type="nodelet" name="$(arg manager)" args="manager" output="screen"/>
+
+    
+
+    <!-- Load person -->
+    <param name="$(arg person)/color_fps"        type="int"  value="$(arg color_fps)" />
+    <param name="$(arg person)/depth_fps"        type="int"  value="$(arg depth_fps)" />
+    <param name="$(arg person)/detection_rate"   type="int"  value="$(arg detection_rate)" />
+    <include file="$(find realsense_person)/launch/includes/nodelet.launch.xml">
+      <arg name="manager"       value="$(arg manager)" />
+      <arg name="rgb"           value="$(arg rgb)" />
+      <arg name="depth"         value="$(arg depth)" />
+      <arg name="person"        value="$(arg person)" />
+    </include>
+  </group>
+
+</launch>
