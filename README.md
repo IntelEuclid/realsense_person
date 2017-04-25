@@ -1,4 +1,6 @@
 # Intel&reg; RealSense&trade; ROS Person
+## Modified for Intel&reg; Euclid
+
 Person detection and tracking package designed for for use with Intel RealSense cameras under ROS.
 
 http://www.intel.com/realsense
